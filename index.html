@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Football Livescores</title>
+
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+    background: #ffffff;
+    overflow-x: hidden;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.page {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    width: 100%;
+    background: #bf0000;
+    color: #ffffff;
+    padding: 12px 10px;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.livescore {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.livescore img {
+    max-width: 100%;
+    height: auto;
+}
+
+.livescore table {
+    max-width: 100%;
+}
+
+@media screen and (max-width: 480px) {
+    .header {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .livescore {
+        font-size: 13px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <div class="header">
+        ⚽ LIVE FOOTBALL SCORES
+    </div>
+
+    <div class="livescore">
+
+        <script id="skin">
+            var tr_match_hover="#e0834a";
+            var tr_leagueHeader_bg="#bf0000";
+            var bz_main_color="#000000";
+        </script>
+
+        <script
+            type="text/javascript"
+            src="https://www.livescore.bz/api.livescore.0.1.js"
+            api="livescore"
+            async>
+        </script>
+
+        <a
+            href="https://www.livescore.bz"
+            sport="football(soccer)"
+            data-1="live"
+            lang="en">
+            Live Match
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
