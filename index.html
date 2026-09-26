@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Football Livescores</title>
 
@@ -11,20 +11,12 @@ html, body {
     margin: 0;
     padding: 0;
     width: 100%;
-    min-height: 100%;
     background: #ffffff;
     overflow-x: hidden;
 }
 
 * {
     box-sizing: border-box;
-}
-
-.page {
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
 }
 
 .header {
@@ -53,52 +45,35 @@ html, body {
 .livescore table {
     max-width: 100%;
 }
-
-@media screen and (max-width: 480px) {
-    .header {
-        font-size: 18px;
-        padding: 10px;
-    }
-
-    .livescore {
-        font-size: 13px;
-    }
-}
 </style>
 </head>
 
 <body>
 
-<div class="page">
+<div class="header">
+    ⚽ LIVE FOOTBALL SCORES
+</div>
 
-    <div class="header">
-        ⚽ LIVE FOOTBALL SCORES
-    </div>
+<div class="livescore">
 
-    <div class="livescore">
+    <a
+        href="https://www.livescore.bz"
+        sport="football(soccer)"
+        data-1="live"
+        lang="en">
+        Live Match
+    </a>
 
-        <script id="skin">
-            var tr_match_hover="#e0834a";
-            var tr_leagueHeader_bg="#bf0000";
-            var bz_main_color="#000000";
-        </script>
+    <script>
+        var tr_match_hover="#e0834a";
+        var tr_leagueHeader_bg="#bf0000";
+        var bz_main_color="#000000";
+    </script>
 
-        <script
-            type="text/javascript"
-            src="https://www.livescore.bz/api.livescore.0.1.js"
-            api="livescore"
-            async>
-        </script>
-
-        <a
-            href="https://www.livescore.bz"
-            sport="football(soccer)"
-            data-1="live"
-            lang="en">
-            Live Match
-        </a>
-
-    </div>
+    <script
+        type="text/javascript"
+        src="https://www.livescore.bz/api.livescore.0.1.js">
+    </script>
 
 </div>
 
