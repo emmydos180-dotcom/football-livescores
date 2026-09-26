@@ -13,82 +13,1162 @@
     <title>Football Livescores</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         html,
         body {
             margin: 0;
             padding: 0;
             width: 100%;
             min-height: 100%;
-            background: #ffffff;
+            background: #f4f4f4;
+            font-family: Arial, sans-serif;
             overflow-x: hidden;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        /* TOP HEADER */
 
         .header {
             width: 100%;
             background: #bf0000;
-            color: #ffffff;
-            padding: 12px 8px;
+            color: white;
+            padding: 15px 8px;
             text-align: center;
-            font-family: Arial, sans-serif;
             font-size: 20px;
             font-weight: bold;
         }
 
-        .score-container {
+        /* NAVIGATION */
+
+        .tabs {
             width: 100%;
-            padding: 10px;
             display: flex;
-            justify-content: center;
-            overflow-x: hidden;
+            background: white;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
-        .score-container iframe {
-            display: block;
-            width: 100%;
-            max-width: 460px;
-            height: 470px;
-            border: 0;
-            border-radius: 12px;
-            background: #ffffff;
+        .tab {
+            flex: 1;
+            padding: 13px 3px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+            background: white;
+            border: none;
+            cursor: pointer;
         }
+
+        .tab.active {
+            color: white;
+            background: #bf0000;
+        }
+
+        /* MAIN AREA */
+
+        .content {
+            width: 100%;
+            padding: 8px;
+        }
+
+        .date-title {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #222;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        /* LEAGUE */
+
+        .league {
+            margin-bottom: 12px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        .league-header {
+            background: #bf0000;
+            color: white;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* MATCH */
+
+        .match {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            min-height: 70px;
+            padding: 8px;
+            border-bottom: 1px solid #eeeeee;
+            background: white;
+        }
+
+        .match:last-child {
+            border-bottom: none;
+        }
+
+        .team {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 13px;
+            color: #222;
+            min-width: 0;
+        }
+
+        .team.home {
+            justify-content: flex-end;
+            text-align: right;
+        }
+
+        .team.away {
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .team-name {
+            overflow-wrap: anywhere;
+        }
+
+        .logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        /* SCORE / TIME */
+
+        .score-box {
+            width: 70px;
+            min-width: 70px;
+            text-align: center;
+            padding: 0 4px;
+        }
+
+        .score {
+            font-size: 16px;
+            font-weight: bold;
+            color: #111;
+        }
+
+        .time {
+            font-size: 13px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .status {
+            display: inline-block;
+            margin-top: 3px;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            background: #eeeeee;
+            color: #555;
+        }
+
+        .status.live {
+            background: #bf0000;
+            color: white;
+        }
+
+        .status.finished {
+            background: #222;
+            color: white;
+        }
+
+        /* LOADING */
+
+        .loading {
+            background: white;
+            padding: 30px 10px;
+            text-align: center;
+            border-radius: 8px;
+            color: #777;
+        }
+
+        /* ERROR */
+
+        .error {
+            background: white;
+            padding: 25px 12px;
+            text-align: center;
+            border-radius: 8px;
+            color: #bf0000;
+            font-size: 14px;
+        }
+
+        /* NO MATCHES */
+
+        .empty {
+            background: white;
+            padding: 35px 10px;
+            text-align: center;
+            border-radius: 8px;
+            color: #777;
+        }
+
+        /* SPORT SCORE CREDIT */
+
+        .credit {
+            text-align: center;
+            padding: 18px 10px 25px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .credit a {
+            color: #bf0000;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        /* MOBILE */
 
         @media screen and (max-width: 480px) {
+
             .header {
                 font-size: 18px;
-                padding: 11px 5px;
+                padding: 13px 5px;
             }
 
-            .score-container {
+            .tab {
+                font-size: 12px;
+                padding: 12px 2px;
+            }
+
+            .content {
                 padding: 6px;
             }
 
-            .score-container iframe {
-                width: 100%;
-                height: 470px;
+            .team {
+                font-size: 12px;
             }
+
+            .logo {
+                width: 25px;
+                height: 25px;
+            }
+
+            .score-box {
+                width: 64px;
+                min-width: 64px;
+            }
+
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <div class="header">
-        ⚽ LIVE FOOTBALL SCORES
+<!-- HEADER -->
+
+<div class="header">
+    ⚽ LIVE FOOTBALL SCORES
+</div>
+
+
+<!-- TABS -->
+
+<div class="tabs">
+
+    <button class="tab" onclick="loadDay(-1, this)">
+        YESTERDAY
+    </button>
+
+    <button class="tab active" onclick="loadDay(0, this)">
+        TODAY
+    </button>
+
+    <button class="tab" onclick="loadDay(1, this)">
+        TOMORROW
+    </button>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="content">
+
+    <div id="dateTitle" class="date-title">
+        Loading...
     </div>
 
-    <div class="score-container">
+    <div id="matches">
 
-        <iframe
-            src="https://footballdata.io/widget/livescore?theme=light&accent=ff0000&refresh=60"
-            loading="lazy"
-            title="Football Live Scores">
-        </iframe>
+        <div class="loading">
+            ⚽ Loading football matches...
+        </div>
 
     </div>
+
+</div>
+
+
+<!-- CREDIT -->
+
+<div class="credit">
+
+    Football data by
+    <a href="https://sportscore.com/"
+       target="_blank"
+       rel="dofollow">
+        SportScore
+    </a>
+
+</div>
+
+
+<script>
+
+/*
+    FOOTBALL LIVESCORES
+    DATA SOURCE: SPORT SCORE
+
+    This page loads:
+    Yesterday
+    Today
+    Tomorrow
+
+    The data refreshes automatically.
+*/
+
+
+const API =
+    "https://sportscore.com/api/v1/fixtures/";
+
+
+let currentDay = 0;
+
+
+/* GET DATE */
+
+function getDate(dayOffset) {
+
+    const date = new Date();
+
+    date.setDate(
+        date.getDate() + dayOffset
+    );
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(date.getMonth() + 1)
+        .padStart(2, "0");
+
+    const day =
+        String(date.getDate())
+        .padStart(2, "0");
+
+    return year + "-" + month + "-" + day;
+}
+
+
+/* FORMAT DATE */
+
+function formatDate(dateString) {
+
+    const date =
+        new Date(dateString + "T12:00:00");
+
+    return date.toLocaleDateString(
+        undefined,
+        {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+}
+
+
+/* DAY NAME */
+
+function dayName(offset) {
+
+    if (offset === -1) {
+        return "Yesterday";
+    }
+
+    if (offset === 1) {
+        return "Tomorrow";
+    }
+
+    return "Today";
+}
+
+
+/* LOAD MATCHES */
+
+async function loadDay(offset, button) {
+
+    currentDay = offset;
+
+    /*
+        Highlight selected tab
+    */
+
+    document
+        .querySelectorAll(".tab")
+        .forEach(function(tab) {
+
+            tab.classList.remove("active");
+
+        });
+
+    if (button) {
+        button.classList.add("active");
+    }
+
+
+    const date =
+        getDate(offset);
+
+
+    document
+        .getElementById("dateTitle")
+        .innerHTML =
+            dayName(offset) +
+            "<br>" +
+            "<small>" +
+            formatDate(date) +
+            "</small>";
+
+
+    const container =
+        document.getElementById("matches");
+
+
+    container.innerHTML =
+        '<div class="loading">' +
+        '⚽ Loading matches...' +
+        '</div>';
+
+
+    try {
+
+        const url =
+            API +
+            "?sport=football" +
+            "&date=" +
+            date +
+            "&limit=200";
+
+
+        const response =
+            await fetch(url);
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load football data."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        /*
+            Different API responses sometimes
+            use different names.
+        */
+
+        let matches =
+            data.matches ||
+            data.data ||
+            [];
+
+
+        if (!Array.isArray(matches)) {
+
+            matches = [];
+
+        }
+
+
+        displayMatches(matches);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        container.innerHTML =
+            '<div class="error">' +
+            '⚠️ Football matches could not be loaded.' +
+            '<br><br>' +
+            'Please check your internet connection ' +
+            'and try again.' +
+            '</div>';
+
+    }
+
+}
+
+
+/* DISPLAY MATCHES */
+
+function displayMatches(matches) {
+
+    const container =
+        document.getElementById("matches");
+
+
+    if (!matches.length) {
+
+        container.innerHTML =
+            '<div class="empty">' +
+            '⚽ No football matches found for this day.' +
+            '</div>';
+
+        return;
+
+    }
+
+
+    /*
+        Group matches by competition
+    */
+
+    const leagues = {};
+
+
+    matches.forEach(function(match) {
+
+        const league =
+            getLeagueName(match);
+
+
+        if (!leagues[league]) {
+
+            leagues[league] = [];
+
+        }
+
+
+        leagues[league].push(match);
+
+    });
+
+
+    let html = "";
+
+
+    Object.keys(leagues)
+        .sort()
+        .forEach(function(league) {
+
+
+            html +=
+                '<div class="league">';
+
+
+            html +=
+                '<div class="league-header">' +
+                '🏆 ' +
+                escapeHTML(league) +
+                '</div>';
+
+
+            leagues[league]
+                .forEach(function(match) {
+
+                    html +=
+                        createMatchHTML(match);
+
+                });
+
+
+            html +=
+                '</div>';
+
+        });
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* CREATE MATCH */
+
+function createMatchHTML(match) {
+
+
+    const home =
+        getHomeTeam(match);
+
+
+    const away =
+        getAwayTeam(match);
+
+
+    const homeLogo =
+        getHomeLogo(match);
+
+
+    const awayLogo =
+        getAwayLogo(match);
+
+
+    const status =
+        getStatus(match);
+
+
+    const time =
+        getMatchTime(match);
+
+
+    const homeScore =
+        getHomeScore(match);
+
+
+    const awayScore =
+        getAwayScore(match);
+
+
+    let statusClass = "";
+
+
+    if (
+        status.toLowerCase()
+            .includes("live") ||
+        status.toLowerCase()
+            .includes("progress") ||
+        status.toLowerCase()
+            .includes("playing")
+    ) {
+
+        statusClass = "live";
+
+    }
+
+
+    if (
+        status.toLowerCase()
+            .includes("finished") ||
+        status.toLowerCase()
+            .includes("final")
+    ) {
+
+        statusClass = "finished";
+
+    }
+
+
+    return `
+
+        <div class="match">
+
+            <div class="team home">
+
+                <span class="team-name">
+                    ${escapeHTML(home)}
+                </span>
+
+                ${
+                    homeLogo
+                    ?
+                    `<img
+                        class="logo"
+                        src="${escapeAttribute(homeLogo)}"
+                        alt="">
+                    `
+                    :
+                    ""
+                }
+
+            </div>
+
+
+            <div class="score-box">
+
+                <div class="${
+                    homeScore !== "" ||
+                    awayScore !== ""
+                    ? "score"
+                    : "time"
+                }">
+
+                    ${
+                        homeScore !== "" ||
+                        awayScore !== ""
+                        ?
+                        homeScore +
+                        " - " +
+                        awayScore
+                        :
+                        time
+                    }
+
+                </div>
+
+
+                ${
+                    status
+                    ?
+                    `<div class="status ${statusClass}">
+                        ${escapeHTML(status)}
+                    </div>`
+                    :
+                    ""
+                }
+
+            </div>
+
+
+            <div class="team away">
+
+                ${
+                    awayLogo
+                    ?
+                    `<img
+                        class="logo"
+                        src="${escapeAttribute(awayLogo)}"
+                        alt="">
+                    `
+                    :
+                    ""
+                }
+
+                <span class="team-name">
+                    ${escapeHTML(away)}
+                </span>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* LEAGUE NAME */
+
+function getLeagueName(match) {
+
+    if (match.competition) {
+
+        if (
+            typeof match.competition ===
+            "object"
+        ) {
+
+            return (
+                match.competition.name ||
+                match.competition.title ||
+                "Football"
+            );
+
+        }
+
+        return match.competition;
+
+    }
+
+
+    if (match.league) {
+
+        if (
+            typeof match.league ===
+            "object"
+        ) {
+
+            return (
+                match.league.name ||
+                match.league.title ||
+                "Football"
+            );
+
+        }
+
+        return match.league;
+
+    }
+
+
+    return "Football";
+
+}
+
+
+/* HOME TEAM */
+
+function getHomeTeam(match) {
+
+    if (match.home) {
+
+        if (
+            typeof match.home ===
+            "object"
+        ) {
+
+            return (
+                match.home.name ||
+                match.home.team_name ||
+                "Home"
+            );
+
+        }
+
+        return match.home;
+
+    }
+
+
+    if (match.home_team) {
+
+        if (
+            typeof match.home_team ===
+            "object"
+        ) {
+
+            return (
+                match.home_team.name ||
+                match.home_team.team_name ||
+                "Home"
+            );
+
+        }
+
+        return match.home_team;
+
+    }
+
+
+    return "Home";
+
+}
+
+
+/* AWAY TEAM */
+
+function getAwayTeam(match) {
+
+    if (match.away) {
+
+        if (
+            typeof match.away ===
+            "object"
+        ) {
+
+            return (
+                match.away.name ||
+                match.away.team_name ||
+                "Away"
+            );
+
+        }
+
+        return match.away;
+
+    }
+
+
+    if (match.away_team) {
+
+        if (
+            typeof match.away_team ===
+            "object"
+        ) {
+
+            return (
+                match.away_team.name ||
+                match.away_team.team_name ||
+                "Away"
+            );
+
+        }
+
+        return match.away_team;
+
+    }
+
+
+    return "Away";
+
+}
+
+
+/* HOME LOGO */
+
+function getHomeLogo(match) {
+
+    if (match.home_logo) {
+
+        return match.home_logo;
+
+    }
+
+
+    if (
+        match.home &&
+        typeof match.home === "object"
+    ) {
+
+        return (
+            match.home.logo ||
+            match.home.crest ||
+            ""
+        );
+
+    }
+
+
+    if (
+        match.home_team &&
+        typeof match.home_team === "object"
+    ) {
+
+        return (
+            match.home_team.logo ||
+            match.home_team.crest ||
+            ""
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* AWAY LOGO */
+
+function getAwayLogo(match) {
+
+    if (match.away_logo) {
+
+        return match.away_logo;
+
+    }
+
+
+    if (
+        match.away &&
+        typeof match.away === "object"
+    ) {
+
+        return (
+            match.away.logo ||
+            match.away.crest ||
+            ""
+        );
+
+    }
+
+
+    if (
+        match.away_team &&
+        typeof match.away_team === "object"
+    ) {
+
+        return (
+            match.away_team.logo ||
+            match.away_team.crest ||
+            ""
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* HOME SCORE */
+
+function getHomeScore(match) {
+
+    if (
+        match.home_score !==
+        undefined &&
+        match.home_score !== null
+    ) {
+
+        return match.home_score;
+
+    }
+
+
+    if (
+        match.score &&
+        typeof match.score === "object"
+    ) {
+
+        return (
+            match.score.home ??
+            ""
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* AWAY SCORE */
+
+function getAwayScore(match) {
+
+    if (
+        match.away_score !==
+        undefined &&
+        match.away_score !== null
+    ) {
+
+        return match.away_score;
+
+    }
+
+
+    if (
+        match.score &&
+        typeof match.score === "object"
+    ) {
+
+        return (
+            match.score.away ??
+            ""
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+/* STATUS */
+
+function getStatus(match) {
+
+    return (
+        match.status_text ||
+        match.status ||
+        ""
+    );
+
+}
+
+
+/* MATCH TIME */
+
+function getMatchTime(match) {
+
+    if (!match.time) {
+
+        return "--:--";
+
+    }
+
+
+    const date =
+        new Date(match.time);
+
+
+    if (isNaN(date.getTime())) {
+
+        return "--:--";
+
+    }
+
+
+    return date.toLocaleTimeString(
+        [],
+        {
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+
+}
+
+
+/* SECURITY */
+
+function escapeHTML(value) {
+
+    return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+    return String(value || "")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/*
+    LOAD TODAY WHEN PAGE OPENS
+*/
+
+loadDay(
+    0,
+    document.querySelector(".tab.active")
+);
+
+
+/*
+    REFRESH EVERY 60 SECONDS
+*/
+
+setInterval(function() {
+
+    loadDay(
+        currentDay,
+        document.querySelector(".tab.active")
+    );
+
+}, 60000);
+
+</script>
 
 </body>
 
